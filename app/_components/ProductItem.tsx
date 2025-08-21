@@ -5,7 +5,6 @@ import { AddedProductType, useProduct } from "@/app/_context/ProductContext";
 import increaseIcon from "@/public/images/icon-increment-quantity.svg";
 import decreaseIcon from "@/public/images/icon-decrement-quantity.svg";
 import { ProductListType } from "@/app/types";
-import useMedia from "@/app/_hooks/useMedia";
 
 type Product = {
   product: ProductListType;
@@ -22,21 +21,21 @@ export function ProductItem({ product }: Product) {
   const inCart = addedProducts.find(
     (addedProduct: AddedProductType) => addedProduct.name === product.name
   );
-  const selectedImage = useMedia(image);
 
   return (
     <li>
       <div className="relative mb-12">
-        <Image
-          src={selectedImage}
-          alt={`${category}_image`}
-          width={0}
-          height={0}
-          sizes="100vw"
-          className={`w-full lg:max-w-[250px] rounded-lg ${
-            inCart ? "border-2 border-vibrant-orange" : ""
-          }`}
-        />
+        <picture>
+          <source media="(max-width: 778px)" srcSet={image.mobile} />
+          <source media="(max-width: 1023px)" srcSet={image.tablet} />
+          <img
+            src={image.desktop}
+            alt="product"
+            className={`w-full lg:max-w-[250px] rounded-lg ${
+              inCart ? "border-2 border-vibrant-orange" : ""
+            }`}
+          />
+        </picture>
 
         <button
           className={`group absolute top-full left-1/2 
